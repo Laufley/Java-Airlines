@@ -1,6 +1,7 @@
 public class Passenger extends Human{
 
     private int numberOfBags;
+    private Flight currentFlight;
 
 
     public Passenger (String name, int numberOfBags){
@@ -12,5 +13,11 @@ public class Passenger extends Human{
         return this.numberOfBags;
     }
 
+    public Flight getCurrentFlight() {
+        return this.currentFlight;
+    }
 
+    public void setCurrentFlight(Flight flight) {
+        this.currentFlight = flight;
+    }
 }
