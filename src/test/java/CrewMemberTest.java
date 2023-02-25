@@ -8,12 +8,12 @@ public class CrewMemberTest {
     CrewMember crewMember1;
     @Before
     public void setUp(){
-        crewMember1 = new CrewMember("Oscar Prieto", RankType.CAPTAIN);
+        crewMember1 = new CrewMember("Suzanne", RankType.LEAD_ATTENDANT);
     }
 
     @Test
     public void canGetRank(){
-        assertEquals(RankType.CAPTAIN, crewMember1.getRank());
+        assertEquals(RankType.LEAD_ATTENDANT, crewMember1.getRank());
     }
 
     @Test
