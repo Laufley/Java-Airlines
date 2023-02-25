@@ -14,7 +14,8 @@ public class Flight {
     private String departureTime;
     private Integer totalWeightAllowance;
 
-    public Flight(Pilot pilot,String[] menuOptions, String flightNumber, DepartureType departure, DestinationType destination, String departureTime, Integer totalWeightAllowance) {
+
+    public Flight(Pilot pilot, String[] menuOptions, String flightNumber, DepartureType departure, DestinationType destination, String departureTime, Integer totalWeightAllowance) {
         this.pilot = pilot;
         this.menuOptions = menuOptions;
         this.cabinCrewMembers = new ArrayList<>();
@@ -31,6 +32,19 @@ public class Flight {
         passenger.setCurrentFlight(this); // assign the current flight I'm operating on to the passenger
     }
 
+    public HashMap<Passenger, String> getPassengersdict(){
+        return this.passengers;
+    }
+
+    public HashMap<Passenger, String> getSinglePassengerInfo(Passenger passenger){
+        HashMap<Passenger, String> passengerInfo = new HashMap<>();
+        String seatNumber = passengers.get(passenger);
+        passengerInfo.put(passenger, seatNumber);
+        return passengerInfo;
+    }
+
+
+
     public Pilot getPilot() {
         return this.pilot;
     }
@@ -41,6 +55,55 @@ public class Flight {
 
     public String[] getMenu() {
         return this.menuOptions;
+    }
+
+    public ArrayList<String> getCabinCrew() {
+        return this.cabinCrewMembers;
+    }
+
+    public void addCabinCrewMember(String name) {
+        this.cabinCrewMembers.add(name);
+    }
+
+    public String getFlightNumber() {
+        return this.flightNumber;
+    }
+
+    public void setFlightNumber(String numberUpdate){
+        this.flightNumber = numberUpdate;
+    }
+
+    public DepartureType getDeparture(){
+        return this.departure;
+    }
+
+    public void setDeparture(DepartureType newDeparture){
+        this.departure = newDeparture;
+    }
+
+    public DestinationType getDestination(){
+        return this.destination;
+    }
+
+    public void setDestination(DestinationType newDestination){
+        this.destination = newDestination;
+    }
+
+
+    public String getDepartureTime() {
+        return this.departureTime;
+    }
+
+    public void setDepartureTime(String newTime) {
+        this.departureTime = newTime;
+    }
+
+    public int getTotalWeight() {
+        return this.totalWeightAllowance;
+    }
+
+    public void setNewMaxWeight(int newWeight) {
+        this.totalWeightAllowance = newWeight;
     }
 }
 //Note to self:

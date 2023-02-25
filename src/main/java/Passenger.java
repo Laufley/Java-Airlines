@@ -20,4 +20,8 @@ public class Passenger extends Human{
     public void setCurrentFlight(Flight flight) {
         this.currentFlight = flight;
     }
+
+    public void setPassengerInfo(String seat) {
+
+    }
 }
