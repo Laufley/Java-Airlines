@@ -4,13 +4,17 @@ import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class FlightTest {
 
     Flight flight1;
+    Flight flight2;
+    Flight flight3;
+    Flight flight4;
     Pilot pilot1;
     Pilot pilot2;
 
@@ -24,7 +28,9 @@ public class FlightTest {
 
         passenger1 = new Passenger("Desmond", 1);
         passenger2 = new Passenger("Alexa", 2);
-        flight1 = new Flight(pilot1, new String[]{"vegan", "vegetarian", "meat", "gluten free"}, "FR756", DepartureType.EDI, DestinationType.BCN, "06:30", 41000);
+        flight1 = new Flight(pilot1, new String[]{"vegan", "vegetarian", "meat", "gluten free"}, "FR756", DepartureType.EDI, DestinationType.BCN, "06:30", 41000, 182);
+        flight2 = new Flight(pilot2, new String[]{"vegan", "vegetarian", "meat", "gluten free"}, "FR126", DepartureType.BCN, DestinationType.EDI, "13:40", 41000, 182);
+
 
         ArrayList<String> cabinCrew1 = new ArrayList<>();
         flight1.addCabinCrewMember("Nur");
@@ -156,6 +162,41 @@ public class FlightTest {
         passenger1.setPassengerInfo("8B");
         assertEquals(expectedPassengerInfo, flight1.getSinglePassengerInfo(passenger1));
     }
+
+    @Test
+    public void canGetTotalSeats() {
+        assertEquals( 182,flight2.getTotalSeats());
+    }
+
+    @Test
+    public void canSetTotalSeats(){
+        flight1.setTotalSeats(200);
+        assertEquals(200, flight1.getTotalSeats());
+    }
+
+    @Test
+    public void canGetTotalSeatsAvailable() {  // Also tests that can book if there are available seats
+        flight4 = new Flight(pilot2, new String[]{"vegan", "vegetarian", "meat", "gluten free"}, "XR465", DepartureType.BCN, DestinationType.EDI, "13:40", 41000, 182);
+        assertEquals(182, flight4.getTotalSeats());
+        assertEquals(182, flight4.getAvailableSeats());
+        flight4.addPassenger(passenger1, "30A");
+        flight4.addPassenger(passenger2, "32F");
+        assertEquals(182, flight4.getTotalSeats());
+        assertEquals(180, flight4.getAvailableSeats());
+        flight4.removePassenger(passenger1);
+        flight4.removePassenger(passenger2);
+        assertEquals(182, flight4.getTotalSeats());
+        assertEquals(182, flight4.getAvailableSeats());
+    }
+
+
+    @Test
+    public void cannotBookIfNotAvailableSeats(){
+        flight3 = new Flight(pilot2, new String[]{"vegan", "vegetarian", "meat", "gluten free"}, "FR111", DepartureType.GLA, DestinationType.EDI, "12:30", 41000, 1);
+        flight3.addPassenger(passenger1, "12A");
+        assertEquals("sorry, there are not available seats for flight FR111", flight3.addPassenger(passenger2, "28C"));
+    }
+
 
 }
 

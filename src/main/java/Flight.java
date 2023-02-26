@@ -14,8 +14,10 @@ public class Flight {
     private String departureTime;
     private Integer totalWeightAllowance;
 
+    private int totalSeats;
 
-    public Flight(Pilot pilot, String[] menuOptions, String flightNumber, DepartureType departure, DestinationType destination, String departureTime, Integer totalWeightAllowance) {
+
+    public Flight(Pilot pilot, String[] menuOptions, String flightNumber, DepartureType departure, DestinationType destination, String departureTime, Integer totalWeightAllowance, int totalSeats) {
         this.pilot = pilot;
         this.menuOptions = menuOptions;
         this.cabinCrewMembers = new ArrayList<>();
@@ -25,12 +27,9 @@ public class Flight {
         this.destination = destination;
         this.departureTime = departureTime;
         this.totalWeightAllowance = totalWeightAllowance;
+        this.totalSeats = totalSeats;
     }
 
-    public void addPassenger(Passenger passenger, String seatNumber) {
-        passengers.put(passenger, seatNumber); // add the passenger to the HashMap with the seat number
-        passenger.setCurrentFlight(this); // assign the current flight I'm operating on to the passenger
-    }
 
     public HashMap<Passenger, String> getPassengersdict(){
         return this.passengers;
@@ -105,6 +104,36 @@ public class Flight {
     public void setNewMaxWeight(int newWeight) {
         this.totalWeightAllowance = newWeight;
     }
+
+    public int getTotalSeats(){
+        return this.totalSeats;
+    }
+
+    public int getAvailableSeats() {
+        return this.totalSeats - this.passengers.size();
+    }
+
+    public void setTotalSeats(int newSeats){
+        this.totalSeats = newSeats;
+    }
+
+    public String addPassenger(Passenger passenger, String seatNumber) {
+        int currentPassengers = this.passengers.size();
+        if (this.totalSeats > currentPassengers) {
+            passengers.put(passenger, seatNumber); // add the passenger to the HashMap with the seat number
+            this.totalSeats = this.totalSeats - 1;
+            passenger.setCurrentFlight(this);
+            return "Thank you for booking with Java airlines";
+        } else {
+            return "sorry, there are not available seats for flight" + " " + this.flightNumber;
+        }
+    }
+
+    public void removePassenger(Passenger passenger) {
+        this.passengers.remove(passenger);
+        this.totalSeats++;
+    }
+
 }
 //Note to self:
 //In Java, this is a reference to the current object that is being operated on. It is often used to differentiate between instance variables and method parameters that have the same name.
